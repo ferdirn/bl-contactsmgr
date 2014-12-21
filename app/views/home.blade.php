@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Contacts Manager</title>
+  <style>
+    table thead td { font-weight: bold; }
+    #addContact { margin-bottom: 2em; }
+  </style>
 </head>
 <body>
 
@@ -30,11 +34,26 @@
     </div>
   </form>
 
+  <table id="allContacts">
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Email Address</td>
+        <td>Description</td>
+        <td>Options</td>
+      </tr>
+    </thead>
+  </table>
+
   <script id="allContactsTemplate" type="text/template">
+    <td><%= id %></td>
     <td><%= first_name %></td>
     <td><%= last_name %></td>
     <td><%= email_address %></td>
     <td><%= description %></td>
+    <td><button class="deleteContact">Delete</button></td>
   </script>
 
   <script src="//code.jquery.com/jquery.js"></script>

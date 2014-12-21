@@ -10,6 +10,8 @@
 App.Views.App = Backbone.View.extend({
   initialize: function() {
     var addContactView = new App.Views.AddContact({ collection: App.contacts });
+    var contactsView = new App.Views.Contacts({ collection: App.contacts });
+    $('#allContacts').append(contactsView.render().el);
   }
 });
 
@@ -24,6 +26,12 @@ App.Views.App = Backbone.View.extend({
 
 App.Views.AddContact = Backbone.View.extend({
   el: '#addContact',
+  initialize: function() {
+    this.first_name = this.$('#first_name');
+    this.last_name = this.$('#last_name');
+    this.email_address = this.$('#email_address');
+    this.description = this.$('#description');
+  },
   events: {
     'submit': 'addContact'
   },
@@ -31,16 +39,22 @@ App.Views.AddContact = Backbone.View.extend({
     e.preventDefault();
 
     var newContact = this.collection.create({
-      first_name: this.$('#first_name').val(),
-      last_name: this.$('#last_name').val(),
-      email_address: this.$('#email_address').val(),
-      description: this.$('#description').val()
+      first_name: this.first_name.val(),
+      last_name: this.last_name.val(),
+      email_address: this.email_address.val(),
+      description: this.description.val()
     });
-
-    this.$('#first_name').val('');
-    this.$('#last_name').val('');
-    this.$('#email_address').val('');
-    this.$('#description').val('');
+    this.clearForm();
+  },
+  clearForm: function() {
+    this.first_name.val('');
+    this.last_name.val('');
+    this.email_address.val('');
+    this.description.val('');
+    this.setFocusFirstName();
+  },
+  setFocusFirstName: function() {
+    this.first_name.focus();
   }
 });
 
@@ -55,6 +69,9 @@ App.Views.AddContact = Backbone.View.extend({
 
 App.Views.Contacts = Backbone.View.extend({
   tagName: 'tbody',
+  initialize: function() {
+    this.collection.on('sync', this.addOne, this);
+  },
   render: function() {
     this.collection.each(this.addOne, this);
     return this;
@@ -76,8 +93,23 @@ App.Views.Contacts = Backbone.View.extend({
 
 App.Views.Contact = Backbone.View.extend({
   tagName:'tr',
-  template:
+  template: App.Helpers.template('allContactsTemplate'),
+  initialize: function() {
+    this.model.on('destroy', this.unrender, this);
+  },
+  events: {
+    'click button.deleteContact': 'deleteContact'
+  },
+  deleteContact: function() {
+    if(confirm('Are you sure to delete ' + this.model.get('first_name') + ' ' + this.model.get('last_name') + '?')) {
+      this.model.destroy();
+    }
+  },
   render: function() {
-
+    this.$el.html( this.template( this.model.toJSON() ) );
+    return this;
+  },
+  unrender: function() {
+    this.remove();
   }
 });
