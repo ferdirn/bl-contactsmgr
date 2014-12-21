@@ -3,7 +3,7 @@
 | Global App View
 |--------------------------------------------------------------------------
 |
-| Views
+| Views index
 |
 */
 
@@ -41,5 +41,43 @@ App.Views.AddContact = Backbone.View.extend({
     this.$('#last_name').val('');
     this.$('#email_address').val('');
     this.$('#description').val('');
+  }
+});
+
+/*
+|--------------------------------------------------------------------------
+| All Contacts View
+|--------------------------------------------------------------------------
+|
+| Show All Contacts View
+|
+*/
+
+App.Views.Contacts = Backbone.View.extend({
+  tagName: 'tbody',
+  render: function() {
+    this.collection.each(this.addOne, this);
+    return this;
+  },
+  addOne: function(contact) {
+    var contactView = new App.Views.Contact({ model: contact });
+    this.$el.append(contactView.render().el);
+  }
+});
+
+/*
+|--------------------------------------------------------------------------
+| Single Contact View
+|--------------------------------------------------------------------------
+|
+| Show Contact
+|
+*/
+
+App.Views.Contact = Backbone.View.extend({
+  tagName:'tr',
+  template:
+  render: function() {
+
   }
 });

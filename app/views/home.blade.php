@@ -30,6 +30,13 @@
     </div>
   </form>
 
+  <script id="allContactsTemplate" type="text/template">
+    <td><%= first_name %></td>
+    <td><%= last_name %></td>
+    <td><%= email_address %></td>
+    <td><%= description %></td>
+  </script>
+
   <script src="//code.jquery.com/jquery.js"></script>
   <script src="//underscorejs.org/underscore.js"></script>
   <script src="//backbonejs.org/backbone.js"></script>
