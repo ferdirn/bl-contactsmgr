@@ -26,12 +26,6 @@ App.Views.App = Backbone.View.extend({
 
 App.Views.AddContact = Backbone.View.extend({
   el: '#addContact',
-  initialize: function() {
-    this.first_name = this.$('#first_name');
-    this.last_name = this.$('#last_name');
-    this.email_address = this.$('#email_address');
-    this.description = this.$('#description');
-  },
   events: {
     'submit': 'addContact'
   },
@@ -39,22 +33,11 @@ App.Views.AddContact = Backbone.View.extend({
     e.preventDefault();
 
     var newContact = this.collection.create({
-      first_name: this.first_name.val(),
-      last_name: this.last_name.val(),
-      email_address: this.email_address.val(),
-      description: this.description.val()
-    });
-    this.clearForm();
-  },
-  clearForm: function() {
-    this.first_name.val('');
-    this.last_name.val('');
-    this.email_address.val('');
-    this.description.val('');
-    this.setFocusFirstName();
-  },
-  setFocusFirstName: function() {
-    this.first_name.focus();
+      first_name: this.$('#first_name').val(),
+      last_name: this.$('#last_name').val(),
+      email_address: this.$('#email_address').val(),
+      description: this.$('#description').val()
+    }, {wait: true});
   }
 });
 
@@ -70,7 +53,7 @@ App.Views.AddContact = Backbone.View.extend({
 App.Views.Contacts = Backbone.View.extend({
   tagName: 'tbody',
   initialize: function() {
-    this.collection.on('sync', this.addOne, this);
+    this.collection.on('add', this.addOne, this);
   },
   render: function() {
     this.collection.each(this.addOne, this);
@@ -95,21 +78,19 @@ App.Views.Contact = Backbone.View.extend({
   tagName:'tr',
   template: App.Helpers.template('allContactsTemplate'),
   initialize: function() {
-    this.model.on('destroy', this.unrender, this);
+    this.model.on('destroy', this.removeContact, this);
   },
   events: {
-    'click button.deleteContact': 'deleteContact'
+    'click .deleteContact' : 'deleteContact'
   },
   deleteContact: function() {
-    if(confirm('Are you sure to delete ' + this.model.get('first_name') + ' ' + this.model.get('last_name') + '?')) {
-      this.model.destroy();
-    }
+    this.model.destroy();
+  },
+  removeContact: function() {
+    this.remove();
   },
   render: function() {
     this.$el.html( this.template( this.model.toJSON() ) );
     return this;
-  },
-  unrender: function() {
-    this.remove();
   }
 });

@@ -37,7 +37,6 @@
   <table id="allContacts">
     <thead>
       <tr>
-        <td>Id</td>
         <td>First Name</td>
         <td>Last Name</td>
         <td>Email Address</td>
@@ -53,12 +52,12 @@
     <td><%= last_name %></td>
     <td><%= email_address %></td>
     <td><%= description %></td>
-    <td><button class="deleteContact">Delete</button></td>
+    <td><button type="button" class="deleteContact">Delete</button></td>
   </script>
 
-  <script src="//code.jquery.com/jquery.js"></script>
-  <script src="//underscorejs.org/underscore.js"></script>
-  <script src="//backbonejs.org/backbone.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/backbone/backbone.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/models.js"></script>
   <script src="assets/js/collections.js"></script>

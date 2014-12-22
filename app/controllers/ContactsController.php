@@ -84,7 +84,11 @@ class ContactsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		return Contact::find($id)->delete();
+		if( Contact::find($id)->delete() ) {
+			return json_encode(['response' => 'Destroy data succeeded!']);
+		} else {
+			return json_encode(['response' => 'Destroy data failed!']);
+		}
 	}
 
 }
