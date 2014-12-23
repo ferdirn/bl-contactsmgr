@@ -37,6 +37,7 @@
   <table id="allContacts">
     <thead>
       <tr>
+        <td>ID</td>
         <td>First Name</td>
         <td>Last Name</td>
         <td>Email Address</td>
